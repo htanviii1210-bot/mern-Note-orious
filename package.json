@@ -37,11 +37,13 @@
     "undefsafe": "^2.0.5"
   },
   "scripts": {
-    "build": "npm install --prefix backend && npm install --prefix frontend"
+    "build": "npm install --prefix backend && npm install --prefix frontend",
+    "start":"npm run start --prefix backend"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/htanviii1210-bot/mern-Note-orious.git"
+    
   },
   "keywords": [],
   "author": "",
