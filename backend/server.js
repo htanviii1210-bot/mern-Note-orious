@@ -16,26 +16,30 @@ const __dirname = path.resolve();
 app.use(cors());
 app.use(express.json());
 
+// Apply rate limiter in production
 if (process.env.NODE_ENV === "production") {
-app.use(rateLimiter);
+  app.use(rateLimiter);
 }
 
+// API route
 app.use("/api/notes", notesRoutes);
 
+// Serve React frontend
 if (process.env.NODE_ENV === "production") {
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
+  app.use(express.static(path.join(__dirname, "../client/build")));
 
-app.get("*", (req, res) => {
-res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
-});
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  });
 }
 
+// Connect database and start server
 connectDB()
-.then(() => {
-app.listen(PORT, () => {
-console.log("Server started on PORT:", PORT);
-});
-})
-.catch((error) => {
-console.log("DB connection failed:", error);
-});
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log("Server started on PORT:", PORT);
+    });
+  })
+  .catch((error) => {
+    console.log("DB connection failed:", error);
+  });
