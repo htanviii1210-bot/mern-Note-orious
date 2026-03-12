@@ -37,8 +37,8 @@
     "undefsafe": "^2.0.5"
   },
   "scripts": {
-    "build": "npm install --prefix backend && npm install --prefix frontend",
-    "start":"npm run start --prefix backend"
+  "build": "npm install --prefix backend && npm install --prefix client && npm run build --prefix client",
+  "start": "npm run start --prefix backend"
   },
   "repository": {
     "type": "git",
