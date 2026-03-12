@@ -10,30 +10,38 @@ import rateLimiter from "./middleware/rateLimiter.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 const __dirname = path.resolve();
 
-app.use(cors());
+// middleware
 app.use(express.json());
 
-// Apply rate limiter in production
-if (process.env.NODE_ENV === "production") {
-  app.use(rateLimiter);
+// CORS for development
+if (process.env.NODE_ENV !== "production") {
+  app.use(
+    cors({
+      origin: "http://localhost:5173",
+    })
+  );
 }
 
-// API route
+// optional rate limiter
+// comment this if Redis causes deployment issues
+app.use(rateLimiter);
+
+// API routes
 app.use("/api/notes", notesRoutes);
 
-// Serve React frontend
+// serve frontend in production
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/build")));
+  app.use(express.static(path.join(__dirname, "../client/dist")));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/build/index.html"));
+    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
   });
 }
 
-// Connect database and start server
+// connect DB and start server
 connectDB()
   .then(() => {
     app.listen(PORT, () => {
