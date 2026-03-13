@@ -38,8 +38,8 @@
   },
   "scripts": {
   "build": "npm install --prefix backend && npm install --prefix client && npm run build --prefix client",
-  "start": "node backend/server.js"
-  },
+  "start": "node ./backend/server.js"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/htanviii1210-bot/mern-Note-orious.git"
